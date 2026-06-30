@@ -1,0 +1,47 @@
+Files included
+--------------
+reversi.py
+reversi_server.py
+hybrid_player.py
+checkpoint.py
+instructions.txt
+
+Required folder structure
+-------------------------
+Put these files in the same folder:
+    reversi.py
+    reversi_server.py
+    hybrid_player.py
+    checkpoint.py
+    instructions.txt
+
+Also keep the provided data folder next to them:
+
+    data/background.jpeg
+    data/white_piece.png
+    data/black_piece.png
+
+Install dependencies
+--------------------
+In a terminal, run:
+    pip install numpy pygame
+
+How to run
+----------
+Open 2 terminals in the folder.
+
+Terminal 1:
+    python reversi_server.py
+
+Terminal 2:
+    python hybrid_player.py
+
+Notes
+-----
+1. Start the server first.
+2. Then start both player programs.
+3. Click once on the pygame window to start the match.
+4. White goes first in the provided environment.
+5. The hybrid player communicates with the provided socket server and returns a move each turn.
+6. If a player has no legal move, it returns [-1, -1] to pass.
+7. When you run checkpoint.py, it will create and save a npz file called hybrid_checkpoint.npz
