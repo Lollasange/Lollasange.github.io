@@ -12,7 +12,7 @@ This repository contains a small networked Reversi (Othello) environment and a "
 - A small utility to save the TinyValueNet parameters to a checkpoint (checkpoint.py).
 
 ## Hybrid approach (technical summary)
-The hybrid agent is designed to be stronger than a greedy player while remaining lightweight and deterministic for a classroom tournament:
+The hybrid agent is designed to be stronger than a greedy player while remaining lightweight and deterministic:
 
 - Feature extraction: a 16-dimensional feature vector captures material balance, mobility, corner occupancy, corner-adjacent (X/C squares) heuristics, positional weights, frontier counts, stable rays from corners, edge/center control, parity, and game phase.
 
@@ -20,7 +20,7 @@ The hybrid agent is designed to be stronger than a greedy player while remaining
 
 - Hand-tuned linear component: a weighted linear combination of features calibrated to emphasize critical aspects of Reversi strategy (mobility, corners, parity, positional weights, etc.). The final evaluation is the sum of the TinyValueNet output (scaled) and the hand-tuned score.
 
-- Search: iterative-deepening alpha‑beta with transposition table and move ordering based on a move-priority heuristic (positional weight + immediate flips + opponent mobility penalty). The search respects a time limit per move and uses progressively increasing depths.
+- Search: iterative-deepening alpha‑beta with transposition table and move ordering based on a move-priority heuristic (positional weight + immediate flips + opponent mobility penalty). The search respects a time limit (5 seconds or less) per move and uses progressively increasing depths.
 
 This combination produces a competitive, fast agent that works well for short time-limited matches used in the course tournament.
 
@@ -76,34 +76,12 @@ python checkpoint.py
 # creates hybrid_checkpoint.npz with arrays w1, b1, w2, b2
 ```
 
-## Headless / automated testing
-To run many matches (for a tournament or evaluation), you may want a headless mode that does not open the pygame UI. Options:
-- Modify `reversi_server.py` to optionally run without pygame (replace the render loop with a simple text or logging loop). The server logic and socket protocol will remain the same.
-- Create a small script that starts the server and launches two agent processes programmatically, logging match results to a CSV for analysis.
-
-If you want, I can add a headless runner and a script to run a round-robin tournament and produce a scoreboard automatically.
-
 ## File overview
 - reversi.py — basic board model and `step()` rules to apply a move and flip pieces.
 - reversi_server.py — socket server + pygame UI; accepts two players and drives the match.
 - hybrid_player.py — hybrid agent implementation, network client, and main loop.
 - checkpoint.py — build and save TinyValueNet parameters to `hybrid_checkpoint.npz`.
 - Instructions.txt — notes and usage instructions used in the original submission.
-- Team13.zip — original submission archive (likely contains project report or supplementary materials).
-
-## Notes & potential improvements
-- Move images into `data/` or update the scripts to load images from the repository root. The Instructions.txt expects `data/`.
-- Consider adding a `requirements.txt` pinning numpy and pygame versions for reproducibility.
-- Add a headless server mode and a small tournament script for reproducible batch evaluation.
-- Add unit tests for the core game logic (reversi.py) to ensure correctness when modifying move logic.
-
-## Contributing / reproducibility
-If you want me to:
-- Commit this README.md update to the repo, I can push it now.
-- Add a `requirements.txt` and a headless runner script, I can create those files and open a PR.
-- Create a reproducible tournament script that runs N matches and outputs a scoreboard, I can implement it and include example results.
-
-
+- Team13.zip — original submission archive.
 ---
-
 _Last updated: 2026-07-01_
